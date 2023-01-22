@@ -14,7 +14,11 @@ block content
         for author in authors
           if book
             //- If there is an error in the submitted form, then, when the form is to be re-rendered, the new book author's id and the existing books's authors ids are of type Schema.Types.ObjectId. So to compare them we must convert them to strings first.
-            option(value=author._id selected=(author._id.toString()===book.author._id.toString() ? 'selected' : false) ) #{author.name}
+            //- Handle GET form, where book.author is an object, and POST form, where it is a string.
+            option(
+              value=author._id 
+              selected=(
+                (author._id.toString()==book.author._id || author._id.toString()==book.author) ? 'selected' : false) ) #{author.name}
           else
             option(value=author._id) #{author.name}
     div.form-group
